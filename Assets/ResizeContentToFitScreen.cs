@@ -8,7 +8,7 @@ public class ResizeContentToFitScreen : MonoBehaviour {
     [SerializeField] private GridLayoutGroup gridLayoutGroup;
     [SerializeField] private int spacing=25;
     
-    private void FixedUpdate() {
+    private void Awake() {
         Rect canvasRect = canvas.GetComponent<RectTransform>().rect;
         float width = canvasRect.width;
         float height = canvasRect.height;
