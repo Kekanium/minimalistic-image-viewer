@@ -32,6 +32,7 @@ public class ImageItem : MonoBehaviour, IPointerClickHandler {
 
                 // Присваиваем спрайт компоненту Image
                 image.sprite = sprite;
+                image.color=Color.white;
             }
             else
             {
