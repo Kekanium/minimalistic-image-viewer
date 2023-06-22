@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class LoadImages : MonoBehaviour {
     [SerializeField] private Transform canvas;
@@ -24,6 +25,11 @@ public class LoadImages : MonoBehaviour {
         oneHeightItem = gridLayoutGroup.cellSize.y + gridLayoutGroup.spacing.y;
         nextBorderLoad = 0;
 
+        if (StateGalleryToViewer.CurrentPosition != 0)
+        {
+            print(StateGalleryToViewer.CurrentPosition.ToString());
+            height += StateGalleryToViewer.CurrentPosition;
+        }
         for (int i = 0; i < height / oneHeightItem; i++)
         {
             for (int j = 0; j < 2; j++)
@@ -35,6 +41,10 @@ public class LoadImages : MonoBehaviour {
                 }
             }
             currentRow++;
+        }
+        if (StateGalleryToViewer.CurrentPosition != 0)
+        {
+            transform.localPosition = new Vector3(transform.position.x, StateGalleryToViewer.CurrentPosition, transform.position.z);
         }
 
     }

@@ -11,10 +11,12 @@ public class ImageItem : MonoBehaviour, IPointerClickHandler {
 
     public void OnPointerClick(PointerEventData eventData) {
         Transform contentTransform = transform.parent.transform;
-        StateGalleryToViewer.CurrentPosition = contentTransform.position.y;
-
+        StateGalleryToViewer.CurrentPosition = contentTransform.localPosition.y;
+        print(contentTransform.localPosition.y.ToString());
         StateGalleryToViewer.PickedImage = numberImage;
         StateGalleryToViewer.PickedTexture2D = _texture;
+        
+        SceneTransition.SwitchToScene("Viewer");
     }
     public void SetImageItemParameters(int number) {
         numberImage = number;
