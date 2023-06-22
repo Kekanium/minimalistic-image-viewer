@@ -16,10 +16,10 @@ public class SceneTransition : MonoBehaviour {
     private static readonly int SceneOpeningTrigger = Animator.StringToHash("SceneOpeningTrigger");
     private static readonly int SceneClosingTrigger = Animator.StringToHash("SceneClosingTrigger");
 
-    public static void SwitchToScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single) {
+    public static void SwitchToScene(string sceneName) {
         _instance._componentAnimator.SetTrigger(SceneClosingTrigger);
 
-        _instance._loadingSceneOperation = SceneManager.LoadSceneAsync(sceneName, mode);
+        _instance._loadingSceneOperation = SceneManager.LoadSceneAsync(sceneName);
 
         _instance._loadingSceneOperation.allowSceneActivation = false;
 

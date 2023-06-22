@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class ViewerToGallery : MonoBehaviour
 {
     public void TransitionViewerToGallery() {
-        SceneTransition.SwitchToScene("Gallery", LoadSceneMode.Single);
-        //SceneManager.LoadScene("Gallery");
+        SceneTransition.SwitchToScene("Gallery");
     }
 }
