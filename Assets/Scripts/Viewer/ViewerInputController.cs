@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 namespace Viewer {
+    /// <summary>
+    /// Класс, отвечающий за управление в просмотрщике изображений.
+    /// </summary>
     public class ViewerInputController : MonoBehaviour {
         private const float MinSwipeDistance = 50f;
 
