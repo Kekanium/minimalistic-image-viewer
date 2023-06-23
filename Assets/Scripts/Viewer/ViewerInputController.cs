@@ -7,15 +7,40 @@ using UnityEngine.UI;
 public class ViewerInputController : MonoBehaviour {
     private Vector2 _touchStartPos;
     private const float MinSwipeDistance = 50f;
-    
+
     private float _startingDistance;
     private Vector3 _startingScale;
+    private RectTransform _imageRectTransform;
+    private Vector2 _touchStartPosition;
+    private Vector3 _imageStartPosition;
+    private Vector2 _imageStartDelta;
 
-   [SerializeField]private Image image;
+    private Touch _touchZero;
+    private Touch _touchOne;
+    private Vector2 _touchZeroPrevPos;
+    private Vector2 _touchOnePrevPos;
+    private float _prevTouchDeltaMag;
+    private float _touchDeltaMag;
+    private bool _isRotating = false;
+
+    [SerializeField] private Image image;
+    [Range(0,1)]
+    public float rotationSpeed = 0.1f;
+    [Range(0.001f,0.01f)]
+    public float zoomSpeed = 0.001f;
+    [Range(0.001f,0.1f)]
+    public float dragSpeed = 0.003f;
+    
+    
+    private void Start() {
+        _imageRectTransform = image.GetComponent<RectTransform>();
+    }
 
     private void Update() {
         GoBack();
-        Zoom();
+
+        ZoomAndRotate();
+        Drag();
     }
 
     private void GoBack() {
@@ -53,30 +78,88 @@ public class ViewerInputController : MonoBehaviour {
 #endif
     }
 
-    private void Zoom() {
+    private void ZoomAndRotate() {
         if (Input.touchCount == 2)
         {
-            // Получаем данные о двух касаниях
-            Touch touchZero = Input.GetTouch(0);
-            Touch touchOne = Input.GetTouch(1);
+            _touchZero = Input.GetTouch(0);
+            _touchOne = Input.GetTouch(1);
 
-            // Проверяем, было ли только что начато движение (начальное положение пальцев)
-            if (touchOne.phase == TouchPhase.Began)
+            // Проверяем, что оба пальца начали касание
+            if (_touchZero.phase == TouchPhase.Began && _touchOne.phase == TouchPhase.Began)
             {
-                _startingDistance = Vector2.Distance(touchZero.position, touchOne.position);
-                _startingScale = image.transform.localScale;
+                _isRotating = true;
+                _touchZeroPrevPos = _touchZero.position - _touchZero.deltaPosition;
+                _touchOnePrevPos = _touchOne.position - _touchOne.deltaPosition;
+                _prevTouchDeltaMag = (_touchZeroPrevPos - _touchOnePrevPos).magnitude;
             }
-            else if (touchZero.phase == TouchPhase.Moved && touchOne.phase == TouchPhase.Moved)
+
+            // Поворачиваем и масштабируем объект, если оба пальца двигаются
+            if (_touchZero.phase == TouchPhase.Moved && _touchOne.phase == TouchPhase.Moved && _isRotating)
             {
-                // Вычисляем текущее расстояние между пальцами
-                float currentDistance = Vector2.Distance(touchZero.position, touchOne.position);
+                // Поворот
+                Vector2 currentTouchDelta = _touchZero.position - _touchOne.position;
+                Vector2 previousTouchDelta = _touchZeroPrevPos - _touchOnePrevPos;
+                float angleDelta = Vector2.Angle(previousTouchDelta, currentTouchDelta);
 
-                // Вычисляем разницу между начальным и текущим расстоянием
-                float scaleFactor = currentDistance / _startingDistance;
+                Vector3 cross = Vector3.Cross(previousTouchDelta, currentTouchDelta);
+                if (cross.z > 0)
+                    angleDelta *= -1;
 
-                // Применяем масштабирование к объекту
-                image.transform.localScale = _startingScale * scaleFactor;
-                
+                image.transform.Rotate(0f, 0f, angleDelta * -rotationSpeed);
+
+                // Зум
+                _touchDeltaMag = (_touchZero.position - _touchOne.position).magnitude;
+                float deltaMagnitudeDiff = _prevTouchDeltaMag - _touchDeltaMag;
+                float scaleMultiplier = Mathf.Clamp(deltaMagnitudeDiff * -zoomSpeed, -1f, 1f);
+
+                Vector3 newScale = image.transform.localScale + new Vector3(scaleMultiplier, scaleMultiplier, scaleMultiplier);
+                if (newScale.x < 0.1)
+                {
+                    image.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                }
+                else if (newScale.x > 5)
+                {
+                    image.transform.localScale = new Vector3(5f, 5f, 5f);
+                }
+                else
+                {
+                    image.transform.localScale = newScale;
+                }
+
+
+                _prevTouchDeltaMag = _touchDeltaMag;
+                _touchZeroPrevPos = _touchZero.position - _touchZero.deltaPosition;
+                _touchOnePrevPos = _touchOne.position - _touchOne.deltaPosition;
+            }
+        }
+        else
+        {
+            // Сбрасываем флаг поворота, если количество касаний меньше двух
+            _isRotating = false;
+        }
+    }
+
+    private void Drag() {
+        
+        if (Input.touchCount == 1)
+        {
+            Touch touch = Input.GetTouch(0);
+            switch (touch.phase)
+            {
+                case TouchPhase.Began:
+                    _touchStartPosition = touch.position;
+                    _imageStartPosition = _imageRectTransform.position;
+                    _imageStartDelta = _imageRectTransform.sizeDelta;
+                    break;
+
+                case TouchPhase.Moved:
+                    Vector2 touchDelta = (touch.position - _touchStartPosition)*dragSpeed;
+                    Vector3 imagePosition = _imageStartPosition + new Vector3(touchDelta.x, touchDelta.y, 0f);
+                    Vector2 imageDelta = _imageStartDelta - new Vector2(touchDelta.x, touchDelta.y);
+                    
+                    _imageRectTransform.position = imagePosition;
+                    _imageRectTransform.sizeDelta = imageDelta;
+                    break;
             }
         }
     }
