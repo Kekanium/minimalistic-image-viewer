@@ -723,10 +723,6 @@ GameObject:
   - component: {fileID: 1549144075}
   - component: {fileID: 1549144074}
   - component: {fileID: 1549144077}
-  - component: {fileID: 1549144079}
-  - component: {fileID: 1549144081}
-  - component: {fileID: 1549144080}
-  - component: {fileID: 1549144082}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -812,118 +808,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a2d62a053820b1468e4387fb4a9b9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1549144079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1549144073}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40a6ab2d6fc39c140aa000a2fae9d6d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OneFingerMoveGesture: {fileID: 1549144081}
-  twoFingerGesture: {fileID: 1549144080}
-  PanSpeed: 200
-  RotationSpeed: 200
-  ZoomSpeed: 10
---- !u!114 &1549144080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1549144073}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74ae431eff8434b0897d3f7f1cff4311, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnStateChange:
-    m_PersistentCalls:
-      m_Calls: []
-  basicEditor: 0
-  generalProps: 0
-  limitsProps: 0
-  advancedProps: 0
-  minPointers: 2
-  maxPointers: 10
-  useSendMessage: 0
-  sendStateChangeMessages: 0
-  sendMessageTarget: {fileID: 0}
-  useUnityEvents: 0
-  sendStateChangeEvents: 0
-  requireGestureToFail: {fileID: 0}
-  friendlyGestures: []
-  OnTransformStart:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTransform:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTransformComplete:
-    m_PersistentCalls:
-      m_Calls: []
-  type: 7
-  screenTransformThreshold: 0.2
-  minScreenPointsDistance: 0.5
---- !u!114 &1549144081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1549144073}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74ae431eff8434b0897d3f7f1cff4311, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnStateChange:
-    m_PersistentCalls:
-      m_Calls: []
-  basicEditor: 0
-  generalProps: 0
-  limitsProps: 0
-  advancedProps: 0
-  minPointers: 1
-  maxPointers: 1
-  useSendMessage: 0
-  sendStateChangeMessages: 0
-  sendMessageTarget: {fileID: 0}
-  useUnityEvents: 0
-  sendStateChangeEvents: 0
-  requireGestureToFail: {fileID: 0}
-  friendlyGestures: []
-  OnTransformStart:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTransform:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTransformComplete:
-    m_PersistentCalls:
-      m_Calls: []
-  type: 1
-  screenTransformThreshold: 0.05
-  minScreenPointsDistance: 0.5
---- !u!114 &1549144082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1549144073}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc7fd33c57d694994b0ab9f33fcdcbea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: Fullscreen @ Main Camera
-  type: 0
-  _camera: {fileID: 1549144075}
 --- !u!1001 &1586028898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1068,6 +952,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1538843352}
+  rotationSpeed: 0.1
+  zoomSpeed: 0.001
+  dragSpeed: 0.003
 --- !u!4 &1784192363
 Transform:
   m_ObjectHideFlags: 0
